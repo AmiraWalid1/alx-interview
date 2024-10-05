@@ -1,14 +1,28 @@
 #!/usr/bin/python3
 """
-function pascal_triangle that returns a list of lists of integers
-representing the Pascal’s triangle of n
-
-Returns an empty list if n <= 0
-You can assume n will be always an integer
+This script contains a function that generates Pascal's triangle
+up to a given number of rows `n`.
 """
 
 
 def pascal_triangle(n):
+    """
+    Function to generate Pascal's triangle of `n` rows.
+
+    Args:
+        n (int): The number of rows in Pascal's triangle.
+
+    Returns:
+        List[List[int]]: A list of lists where each list represents
+        a row of Pascal's triangle.
+
+    Example:
+        pascal_triangle(3) returns [[1], [1, 1], [1, 2, 1]]
+
+    Notes:
+        - If `n <= 0`, the function returns an empty list.
+    """
+
     if (n <= 0):
         return []
     triangle = [[1]]
