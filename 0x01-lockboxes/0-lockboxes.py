@@ -22,21 +22,15 @@ def canUnlockAll(boxes):
     Returns:
         bool: True if all boxes can be opened, False otherwise.
     """
-    check = [0] * len(boxes)
-    check[0] = 1
+    unlocked = [False] * len(boxes)
+    unlocked[0] = True
 
-    queue = []
-    for key in boxes[0]:
-        queue.append(key)
+    keys = boxes[0]
 
-    while (len(queue) != 0):
-        check[queue[0]] = 1
-        if check.count(1) == len(boxes):
-            return True
+    for key in keys:
+        if 0 <= key < len(boxes) and not unlocked[key]:
+            unlocked[key] = True
+            keys.extend(boxes[key])
+        
 
-        for key in boxes[queue[0]]:
-            if check[key] == 0:
-                queue.append(key)
-        queue.pop(0)
-
-    return False
+    return all(unlocked)
