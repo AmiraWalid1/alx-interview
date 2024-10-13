@@ -31,6 +31,5 @@ def canUnlockAll(boxes):
         if 0 <= key < len(boxes) and not unlocked[key]:
             unlocked[key] = True
             keys.extend(boxes[key])
-        
 
     return all(unlocked)
