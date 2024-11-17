@@ -2,19 +2,38 @@
 const request = require('request');
 const movieID = process.argv[2] || '';
 
-request(`https://swapi-api.alx-tools.com/api/films/${movieID}`, (err, response, body) => {
-  if (err) {
-    console.error('Error:', err);
-  } else if (response.statusCode === 200) {
-    const characters = JSON.parse(body).characters;
-    for (const character of characters) {
-      request(character, (err, response, body) => {
+function requestPromise(url) {
+    return new Promise((resolve, reject) => {
+      request(url, (err, response, body) => {
         if (err) {
-          console.error('Error:', err);
+          reject(err); // Reject the promise if an error occurs
         } else if (response.statusCode === 200) {
-          console.log(JSON.parse(body).name);
+          resolve(body); // Resolve the promise with the response body
+        } else {
+          reject(new Error(`Failed with status code: ${response.statusCode}`));
         }
       });
+    });
+  }
+  
+  // Main function to fetch characters synchronously
+  async function fetchCharacters() {
+    try {
+      // Fetch movie details
+      const movieResponse = await requestPromise(`https://swapi-api.alx-tools.com/api/films/${movieID}`);
+      const movie = JSON.parse(movieResponse);
+  
+      const characters = movie.characters;
+  
+      // Process each character sequentially
+      for (const character of characters) {
+        const charResponse = await requestPromise(character);
+        const characterData = JSON.parse(charResponse);
+        console.log(characterData.name);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   }
-});
+  
+  fetchCharacters();
