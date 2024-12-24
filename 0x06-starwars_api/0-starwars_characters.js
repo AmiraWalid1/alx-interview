@@ -27,7 +27,7 @@ async function fetchCharacters () {
 
     // Process each character sequentially
     for (const character of characters) {
-      const charResponse = await requestPromise(character);
+      const charRessemistandardponse = await requestPromise(character);
       const characterData = JSON.parse(charResponse);
       console.log(characterData.name);
     }
